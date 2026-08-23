@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Assessment History - CyberRisk Assessment</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #222;
+        }
+
+        .navbar {
+            background: #17202a;
+            color: white;
+            padding: 18px 40px;
+        }
+
+        .navbar h2 {
+            margin: 0;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .header h1 {
+            margin-top: 0;
+        }
+
+        .header p {
+            color: #666;
+        }
+
+        .assessment {
+            background: white;
+            padding: 25px;
+            margin-bottom: 18px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .assessment h2 {
+            margin-top: 0;
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .detail {
+            background: #f4f6f9;
+            padding: 15px;
+            border-radius: 7px;
+        }
+
+        .detail-title {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 7px;
+        }
+
+        .detail-value {
+            font-weight: bold;
+            font-size: 17px;
+        }
+
+        .score {
+            color: #2471a3;
+        }
+
+        .risk {
+            color: #c0392b;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 18px;
+            border-radius: 7px;
+            background: #2471a3;
+            color: white;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            opacity: 0.85;
+        }
+
+        .empty {
+            background: white;
+            padding: 35px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            color: #666;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            color: #555;
+            text-decoration: none;
+        }
+
+        @media (max-width: 700px) {
+            .details {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+        <h2>CyberRisk Assessment</h2>
+    </div>
+
+    <div class="container">
+
+        <div class="header">
+
+            <h1>Assessment History</h1>
+
+            <p>
+                Previous cybersecurity assessments for your business.
+            </p>
+
+        </div>
+
+
+        {% if assessments %}
+
+            {% for assessment in assessments %}
+
+            <div class="assessment">
+
+                <h2>
+                    Assessment #{{ assessment.id }}
+                </h2>
+
+
+                <div class="details">
+
+                    <div class="detail">
+
+                        <div class="detail-title">
+                            Date
+                        </div>
+
+                        <div class="detail-value">
+                            {{ assessment.created_at }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <div class="detail-title">
+                            Security Score
+                        </div>
+
+                        <div class="detail-value score">
+                            {{ assessment.security_score }}/100
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <div class="detail-title">
+                            Risks Identified
+                        </div>
+
+                        <div class="detail-value">
+                            {{ assessment.risk_count }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <div class="detail-title">
+                            Overall Risk
+                        </div>
+
+                        <div class="detail-value risk">
+                            {{ assessment.overall_risk }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <a
+                    href="{{ url_for('assessment_details', assessment_id=assessment.id) }}"
+                    class="button"
+                >
+                    View Details
+                </a>
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty">
+
+                <h2>No Assessments Yet</h2>
+
+                <p>
+                    Complete your first cybersecurity assessment
+                    to see your results here.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+
+        <a href="{{ url_for('dashboard') }}" class="back">
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+</body>
+</html>
